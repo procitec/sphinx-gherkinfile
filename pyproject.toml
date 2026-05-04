@@ -48,12 +48,15 @@ dev = [
 packages = ["src/sphinx_gherkinfile"]
 
 [tool.hatch.build.targets.sdist]
-include = [
-  "/LICENSE",
-  "/README.md",
-  "/pyproject.toml",
-  "/src",
-  "/tests",
+only-include = [
+  "LICENSE",
+  "README.md",
+  "pyproject.toml",
+  "src",
+  "tests",
+]
+exclude = [
+  ".gitignore",
 ]
 
 
