@@ -26,23 +26,85 @@ except PackageNotFoundError:
 
 KEYWORD_OBJTYPE = {
     "feature": "feature",
+    "funktionalität": "feature",
+    "funktion": "feature",
+    "eigenschaft": "feature",
     "rule": "rule",
+    "regel": "rule",
     "background": "background",
+    "grundlage": "background",
+    "hintergrund": "background",
+    "voraussetzungen": "background",
+    "vorbedingungen": "background",
     "scenario": "scenario",
     "example": "scenario",
+    "beispiel": "scenario",
+    "szenario": "scenario",
     "scenario outline": "scenario",
     "scenario template": "scenario",
     "outline": "scenario",
     "template": "scenario",
+    "szenariogrundriss": "scenario",
+    "szenarien": "scenario",
     "examples": "examples",
     "scenarios": "examples",
+    "beispiele": "examples",
     "step": "step",
     "given": "step",
+    "angenommen": "step",
+    "gegeben sei": "step",
+    "gegeben seien": "step",
     "and": "step",
+    "und": "step",
     "but": "step",
+    "aber": "step",
     "*": "step",
     "when": "step",
+    "wenn": "step",
     "then": "step",
+    "dann": "step",
+}
+
+
+KEYWORD_CSS_CLASS = {
+    "feature": "feature",
+    "funktionalität": "feature",
+    "funktion": "feature",
+    "eigenschaft": "feature",
+    "rule": "rule",
+    "regel": "rule",
+    "background": "background",
+    "grundlage": "background",
+    "hintergrund": "background",
+    "voraussetzungen": "background",
+    "vorbedingungen": "background",
+    "scenario": "scenario",
+    "example": "scenario",
+    "beispiel": "scenario",
+    "szenario": "scenario",
+    "scenario outline": "scenario",
+    "scenario template": "scenario",
+    "outline": "scenario",
+    "template": "scenario",
+    "szenariogrundriss": "scenario",
+    "szenarien": "scenario",
+    "examples": "examples",
+    "scenarios": "examples",
+    "beispiele": "examples",
+    "step": "step",
+    "given": "given",
+    "angenommen": "given",
+    "gegeben sei": "given",
+    "gegeben seien": "given",
+    "and": "and",
+    "und": "and",
+    "but": "but",
+    "aber": "but",
+    "*": "and",
+    "when": "when",
+    "wenn": "when",
+    "then": "then",
+    "dann": "then",
 }
 
 
@@ -58,8 +120,16 @@ class MultipleFound(SphinxGherkinFileError):
     pass
 
 
+def normalize_keyword(keyword: str) -> str:
+    return " ".join(keyword.strip().strip(":").lower().split())
+
+
 def keyword_to_objtype(keyword: str) -> str:
-    return KEYWORD_OBJTYPE[keyword.strip().strip(":").lower()]
+    return KEYWORD_OBJTYPE[normalize_keyword(keyword)]
+
+
+def keyword_to_css_class(keyword: str) -> str:
+    return KEYWORD_CSS_CLASS.get(normalize_keyword(keyword), keyword_to_objtype(keyword))
 
 
 def setup(app: Sphinx) -> dict[str, object]:

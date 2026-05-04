@@ -40,8 +40,8 @@ def test_tags_are_rendered_inline_and_as_css_classes(app, outdir):
 
     assert '<p class="gherkin-tags">' not in html
     assert '<span class="gherkin-tags">' in html
-    assert 'class="gherkin gherkin-feature tag_requirements"' in html
-    assert 'class="gherkin gherkin-scenario tag_wip"' in html
+    assert 'class="gherkin gherkin-feature feature tag_requirements"' in html
+    assert 'class="gherkin gherkin-scenario scenario tag_wip"' in html
     assert 'class="gherkin-tag tag_wip"' in html
     assert re.search(r"Scenario.*Changing.*parameter.*gherkin-tag tag_wip", html, re.DOTALL)
 

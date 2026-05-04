@@ -12,6 +12,7 @@ from sphinx.util.nodes import make_id
 from sphinx_gherkinfile import (
     SphinxGherkinFileError,
     get_config_gherkinfile_dirs,
+    keyword_to_css_class,
     keyword_to_objtype,
 )
 from sphinx_gherkinfile.gherkin import (
@@ -75,6 +76,8 @@ class GherkinFileDirective(SphinxDirective):
         desc["domain"] = "gherkinfile"
         desc["objtype"] = objtype
         desc["classes"].extend(["gherkin", f"gherkin-{objtype}"])
+        # enable if it should be backward compatible with old implementation
+        desc["classes"].extend(["gherkin", objtype, f"gherkin-{objtype}"])
         if isinstance(keyword, BehaviorScope):
             desc["classes"].extend(self._tag_classes(keyword))
 
@@ -86,12 +89,34 @@ class GherkinFileDirective(SphinxDirective):
         desc += content
         return desc
 
+    def _repeated_step_keyword(self, document: Document) -> str:
+        if document.feature.language.lower() == "de":
+            return "Und"
+
+        return "And"
+
+    def _display_keyword(self, keyword: KeywordNode, document: Document) -> str:
+        display_keyword = keyword.keyword.strip()
+        if isinstance(keyword, Step) and display_keyword == "*":
+            return self._repeated_step_keyword(document)
+
+        return display_keyword
+
+    def _keyword_class(self, keyword: KeywordNode) -> str:
+        return keyword_to_css_class(keyword.keyword)
+
     def _make_signature(self, keyword: KeywordNode, objtype: str, document: Document) -> addnodes.desc_signature:
         summary = keyword.summary
         signature = addnodes.desc_signature(summary, "")
         signature["ids"].append(self._make_node_id(keyword, objtype, document))
-        signature += addnodes.desc_annotation(keyword.keyword.strip(), "", nodes.Text(keyword.keyword.strip()))
-        signature += addnodes.desc_sig_punctuation("", ":")
+        signature["classes"].append(self._keyword_class(keyword))
+
+        display_keyword = self._display_keyword(keyword, document)
+        signature += addnodes.desc_annotation(display_keyword, "", nodes.Text(display_keyword))
+
+        if not isinstance(keyword, Step):
+            signature += addnodes.desc_sig_punctuation("", ":")
+
         if summary:
             signature += addnodes.desc_sig_space()
             signature += addnodes.desc_name(summary, summary)
