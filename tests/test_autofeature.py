@@ -56,9 +56,9 @@ def test_extension_uses_plain_directive_without_gherkin_domain(app, outdir):
 @pytest.mark.sphinx(testroot="autofeature")
 def test_feature_file_is_registered_as_dependency(app, outdir):
     app.builder.build_all()
-    dependencies = {str(path) for path in app.env.dependencies["index"]}
+    dependencies = {Path(path) for path in app.env.dependencies["index"]}
 
-    assert any(path.endswith("parameter_module_changed.feature") for path in dependencies)
+    assert any(path.name == "parameter_module_changed.feature" for path in dependencies)
 
 
 @pytest.mark.sphinx(testroot="search-paths")
@@ -66,7 +66,12 @@ def test_gherkinfile_dirs_are_used_as_search_paths(app, outdir):
     app.builder.build_all()
     html = (outdir / "index.html").read_text(encoding="utf-8")
     text = html_text(html)
-    dependencies = {str(path) for path in app.env.dependencies["index"]}
+
+    dependencies = {Path(path) for path in app.env.dependencies["index"]}
 
     assert "Parameter module changed" in text
-    assert any(path.endswith("features/parameter_module_changed.feature") for path in dependencies)
+    assert any(
+        path.name == "parameter_module_changed.feature"
+        and path.parent.name == "features"
+        for path in dependencies
+    )
