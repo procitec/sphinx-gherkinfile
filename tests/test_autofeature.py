@@ -72,7 +72,5 @@ def test_gherkinfile_dirs_are_used_as_search_paths(app, outdir):
 
     assert "Parameter module changed" in text
     assert any(
-        path.name == "parameter_module_changed.feature"
-        and path.parent.name == "features"
-        for path in dependencies
+        path.name == "parameter_module_changed.feature" and path.parent.name == "features" for path in dependencies
     )
