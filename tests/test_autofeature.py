@@ -28,7 +28,7 @@ def test_gherkinfile_directive_renders_feature_file(app, outdir):
     assert "a module parameter file" in text
     assert "module_name" in text
     assert "RX" in text
-    assert "The documentation includes a feature file that already exists on disk"
+    assert "The documentation includes a feature file that already exists on disk" in text
     assert re.search(r"<table", html)
 
 
