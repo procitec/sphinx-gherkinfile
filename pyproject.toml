@@ -1,0 +1,98 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sphinx-gherkinfile"
+version = "26.1.0"
+description = "Minimal Sphinx extension for rendering external Gherkin feature files."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "BSD-2-Clause-Patent"
+authors = [
+  { name = "PROCITEC GmbH" },
+]
+keywords = ["gherkin", "sphinx", "sphinx-extension", "feature-files"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Framework :: Sphinx",
+  "Framework :: Sphinx :: Extension",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Documentation",
+  "Typing :: Typed",
+]
+dependencies = [
+  "docutils",
+  "gherkin-official",
+  "sphinx>=3",
+]
+
+[project.urls]
+Repository = "https://github.com/procitec/sphinx-gherkinfile"
+Issues = "https://github.com/procitec/sphinx-gherkinfile/issues"
+
+[dependency-groups]
+dev = [
+  "pytest>=8",
+  "ruff>=0.8",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sphinx_gherkinfile"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/LICENSE",
+  "/README.md",
+  "/pyproject.toml",
+  "/src",
+  "/tests",
+]
+
+
+[tool.pytest.ini_options]
+addopts = [
+  "-v",
+  "-W", "error",
+]
+testpaths = ["tests"]
+norecursedirs = ["tests/roots/**/_build"]
+
+[tool.ruff]
+line-length = 120
+src = ["src", "tests"]
+target-version = "py312"
+exclude = [
+  ".git",
+  ".mypy_cache",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".venv",
+  "build",
+  "dist",
+]
+
+[tool.ruff.lint]
+select = [
+  "B",
+  "E",
+  "F",
+  "I",
+  "RUF",
+  "SIM",
+  "UP",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["sphinx_gherkinfile"]
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.format]
+docstring-code-format = true
