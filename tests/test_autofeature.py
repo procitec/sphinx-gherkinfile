@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import html as html_module
 import re
+from pathlib import Path
 
 import pytest
 from sphinx.errors import ExtensionError
