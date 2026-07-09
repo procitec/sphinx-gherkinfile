@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sphinx-gherkinfile"
-version = "26.1.1"
+version = "26.1.2"
 description = "Minimal Sphinx extension for rendering external Gherkin feature files."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -30,8 +30,8 @@ classifiers = [
 ]
 dependencies = [
   "docutils",
-  "gherkin-official",
-  "sphinx>=3",
+  "gherkin-official>=31,<42",
+  "sphinx>=7,<9",
 ]
 
 [project.urls]

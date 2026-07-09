@@ -164,7 +164,7 @@ class Scenario(BehaviorScope):
 @dataclass(order=True, frozen=True)
 class DocString(GherkinElement):
     content: str
-    mediatype: str
+    mediatype: str | None
     delimiter: str
 
 
@@ -471,7 +471,7 @@ class DefinitionBuildah:
 
         return DocString(
             content=docstring_definition["content"],
-            mediatype=docstring_definition["mediaType"],
+            mediatype=docstring_definition.get("mediaType", ""),
             delimiter=docstring_definition["delimiter"],
             location=self.visit_location(docstring_definition["location"], farthest_code_location),
         )
