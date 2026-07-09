@@ -24,15 +24,15 @@ def test_docstring_without_media_type_can_be_parsed():
         "Feature: Doc strings\n"
         "  Scenario: Without media type\n"
         "    Given a doc string without media type\n"
-        "      \"\"\"\n"
+        '      """\n'
         "      plain doc string content\n"
-        "      \"\"\"\n"
+        '      """\n'
     )
 
     assert step.docstring is not None
     assert step.docstring.content.strip() == "plain doc string content"
     assert step.docstring.mediatype in ("", None)
-    assert step.docstring.delimiter == '\"\"\"'
+    assert step.docstring.delimiter == '"""'
 
 
 def test_docstring_with_media_type_can_be_parsed():
@@ -40,15 +40,15 @@ def test_docstring_with_media_type_can_be_parsed():
         "Feature: Doc strings\n"
         "  Scenario: With media type\n"
         "    Given a doc string with media type\n"
-        "      \"\"\"text/plain\n"
+        '      """text/plain\n'
         "      typed doc string content\n"
-        "      \"\"\"\n"
+        '      """\n'
     )
 
     assert step.docstring is not None
     assert step.docstring.content.strip() == "typed doc string content"
     assert step.docstring.mediatype == "text/plain"
-    assert step.docstring.delimiter == '\"\"\"'
+    assert step.docstring.delimiter == '"""'
 
 
 @pytest.mark.sphinx(testroot="docstrings")
