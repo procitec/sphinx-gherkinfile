@@ -30,7 +30,7 @@ classifiers = [
 ]
 dependencies = [
   "docutils",
-  "gherkin-official>=31",
+  "gherkin-official>=30",
   "sphinx>=7",
 ]
 
